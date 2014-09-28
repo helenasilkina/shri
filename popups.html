@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Popus</title>
+    <style>
+		html, 
+		body {position: relative; margin: 0; padding: 0; width: 100%; height: 100%;}
+		
+		h3, h4, p {margin: 0; padding: 0;}
+		h3 {margin: 40px 0 20px 20px;}
+		h4 {padding-bottom: 12px;}
+		.description {margin-left: 20px; padding-bottom: 15px;}
+		
+		.overlay {position: relative; height: 400px; width: 100%; text-align: center; background-color: rgba(0,0,0,0.4);}
+		.popup {border-radius: 10px; padding: 20px; line-height: 1.2; text-align: left; background-color: #fff;}
+		
+		.overlay-table {display: table-cell; vertical-align: middle;}
+		.popup-table {display: inline-block; max-width: 40%;} 
+		
+		.overlay-container {line-height: 400px;}
+		.popup-container {display: inline-block; max-width: 400px; vertical-align: middle;} 
+		
+		.popup-fixed-height {position: relative; top: 50%; display: inline-block; margin: -130px 0 0; max-width: 400px;} 
+		
+		.popup-fixed {position: absolute; top: 50%; display: inline-block; margin: -130px 0 0 -200px; width: 400px;} 
+    </style>    
+  </head>
+  <body>
+    <h3>Попап с произвольными размерами</h3>	
+	<p class="description">
+		Основной минус: данный метод работает с 8 версии Интернет Эксплорера.
+		При размещении таблиц или другого сложного контента, желательно фиксировать размеры. 
+		Для float элементов использовать различные clearfix методы.
+	</p>
+	<div class="overlay overlay-table">
+		<div class="popup popup-table">
+			<h4>Lorem Ipsum</h4>
+			<p>
+				Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+			</p>
+		</div>
+	</div>
+	
+	<h3>Попап в окне с фиксированными размерами</h3>	
+	<p class="description">
+		Удобнее всего использовать если содержимое попапа различные изображения с известной высотой или размерами, не превышающими размеры контейнера.
+	</p>
+	<div class="overlay overlay-container">
+		<div class="popup popup-container">
+			<h4>Lorem Ipsum</h4>
+			<p>
+				Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+			</p>
+		</div>
+	</div>
+	
+	<h3>Попап с фиксированной высотой</h3>	
+	<p class="description">
+		Центрировать попап по ширине намного проще, чем по высоте.
+	</p>
+	<div class="overlay overlay-center">
+		<div class="popup popup-fixed-height">
+			<h4>Lorem Ipsum</h4>
+			<p>
+				Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+			</p>
+		</div>
+	</div>
+	
+	<h3>Попап с фиксированными размерами</h3>	
+	<p class="description">
+		Самый просто случай, когда заранее известны размеры выпадающего окна. Чтобы такое случалось чаще, можно пойти на маленькие хитрости, а именно: ограничить высоту и ширину попапа, задать примерные размеры в зависимости от предполагаемого контента.
+	</p>
+	<div class="overlay">
+		<div class="popup popup-fixed">
+			<h4>Lorem Ipsum</h4>
+			<p>
+				Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+			</p>
+		</div>
+	</div>
+    
+  </body>
+</html>
