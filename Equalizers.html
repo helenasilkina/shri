@@ -63,10 +63,8 @@
 		var cols = new Array(colQuantity);
 		var spanCount = [];
 		var style = document.createElement("style");
-		var spanElement = document.createElement("style");
 		var textStyle = [];
 		var text = '';
-		var spans = '';
 		
 		if (!window.animationRight) {
 			var defaultHeight = '50%';
@@ -75,7 +73,7 @@
 			}
 			text = document.createTextNode(textStyle.join(''));
 			style.appendChild(text);
-			document.querySelectorAll('body')[0].appendChild(style);
+			document.querySelectorAll('head')[0].appendChild(style);
 			window.animationRight = true;
 		}
 		if (revert && !window.animationRevert) {
@@ -96,9 +94,7 @@
 			}
 		}
 		spans = spanCount.join('');
-		spanElement = document.createElement('div');
-		spanElement.innerHTML = spans;
-		selector.innerHTML = spans;
+		selector.innerHTML  = spanCount.join('');
 	}	
 	
 	function run_equalizer() {
