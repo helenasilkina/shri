@@ -35,90 +35,97 @@
 		height: 50%;
 		background: pink;
 		border-top: 2px solid red;
-	  }
-	  
+	  }	  
     </style>
     <script>
-    function setEqualizer(selector, timeout, colWidth, revert) {
-		colWidth =  colWidth ? colWidth : 1;
-		window.equalizerTimer = timeout ? timeout : 1000;
-		window.equalizerArray = window.equalizerArray ? window.equalizerArray : [];
-		window.equalizerArray.push(selector);
-		
-		var prefix = '';
-		if (navigator.userAgent.indexOf('Firefox') != -1) {
-			prefix = '-moz-';
-		} else if (navigator.userAgent.indexOf('Chrome') != -1 && navigator.userAgent.indexOf('Safari') != -1){
-			prefix = '-webkit-';
-		}
-		
-		var selector = document.getElementById(selector);
-		var selectorHeight = selector.clientHeight,
-			halfSelectorHeight = selectorHeight/2;
-	  
-		var colQuantity = Math.ceil(selector.clientWidth/colWidth);
-		if (!window.selectorCount) {
-			window.selectorCount = 0;
-		}
-		var cols = new Array(colQuantity);
-		var spanCount = [];
-		var style = document.createElement("style");
-		var textStyle = [];
-		var text = '';
-		
-		if (!window.animationRight) {
+		function setEqualizer(selector, timeout, colWidth, revert) {
+			
+			colWidth =  colWidth ? colWidth : 1;
+			window.equalizerTimer = timeout ? timeout : 1000;
+			window.equalizerArray = window.equalizerArray ? window.equalizerArray : [];
+			window.equalizerArray.push(selector);
+			
+			var prefix = '';
+			var selector = document.getElementById(selector);
+			var selectorHeight = selector.clientHeight;
+			var halfSelectorHeight = selectorHeight/2;
 			var defaultHeight = '50%';
-			for (var y = 100; y > -1; y--) {
-				textStyle.push('.span' + y +' {'+ prefix +'animation: equalizerItem'+ y +' '+timeout / 1000+'s; '+ prefix +'animation-iteration-count: infinite; '+ prefix +'animation-timing-function: ease-in-out;}@'+ prefix +'keyframes equalizerItem'+ y +' {from {height: ' + Math.ceil(100 * Math.random()) + '%;} to {height: '+ defaultHeight +';}}');
+		  
+			var colQuantity = Math.ceil(selector.clientWidth/colWidth);
+			var cols = new Array(colQuantity);
+			var spanCount = [];
+			var style = document.createElement("style");
+			var textStyle = [];
+			var text = '';
+			
+			if (navigator.userAgent.indexOf('Firefox') != -1) {
+				prefix = '-moz-';
+			} else if (navigator.userAgent.indexOf('Chrome') != -1 && navigator.userAgent.indexOf('Safari') != -1){
+				prefix = '-webkit-';
 			}
+			
+			if (!window.selectorCount) {
+				window.selectorCount = 0;
+			}
+			
+			// default equalizer animation			
+			if (!window.animationRight) {
+				for (var y = 100; y > -1; y--) {
+					textStyle.push('.span' + y +' {'+ prefix +'animation: equalizerItem'+ y +' '+timeout / 1000+'s; '+ prefix +'animation-iteration-count: infinite; '+ prefix +'animation-timing-function: ease-in-out;}@'+ prefix +'keyframes equalizerItem'+ y +' {from {height: ' + Math.ceil(100 * Math.random()) + '%;} to {height: '+ defaultHeight +';}}');
+				}
+				window.animationRight = true;
+			}
+			
+			// reverse equalizer amination
+			if (revert && !window.animationRevert) {
+				defaultHeight = '100%';
+				for (var y = 100; y > -1; y--) {
+					textStyle.push('.spanRevert' + y +' {'+ prefix +'animation: equalizerItemReverse'+ y +' '+timeout / 1000 + 's; '+ prefix +'animation-iteration-count: infinite; '+ prefix +'animation-timing-function: ease-in-out;}@'+ prefix +'keyframes equalizerItemReverse'+ y +' {from {height: ' + Math.ceil(100 * Math.random()) + '%;} to {height: '+ defaultHeight +';}}');
+				}			
+				window.animationRevert = true;
+			}
+			
 			text = document.createTextNode(textStyle.join(''));
 			style.appendChild(text);
 			document.querySelectorAll('head')[0].appendChild(style);
-			window.animationRight = true;
-		}
-		if (revert && !window.animationRevert) {
-			var defaultHeight = '100%';
-			for (var y = 100; y > -1; y--) {
-				textStyle.push('.spanRevert' + y +' {'+ prefix +'animation: equalizerItemReverse'+ y +' '+timeout / 1000 + 's; '+ prefix +'animation-iteration-count: infinite; '+ prefix +'animation-timing-function: ease-in-out;}@'+ prefix +'keyframes equalizerItemReverse'+ y +' {from {height: ' + Math.ceil(100 * Math.random()) + '%;} to {height: '+ defaultHeight +';}}');
+			
+			for (var i = cols.length - 1; i > -1; i--) {
+				if (revert) {
+					spanCount.push("<span class='spanRevert spanRevert"+ i % 100 +"' style='width: " + colWidth + "px;'>&nbsp;</span>");
+				} else {
+					spanCount.push("<span class='span span"+ i % 100 +"' style='width: " + colWidth + "px;'>&nbsp;</span>");
+				}
+			}
+			
+			spans = spanCount.join('');
+			selector.innerHTML  = spanCount.join('');
+		}	
+		
+		function run_equalizer() {
+			var span = document.querySelectorAll('.span');
+			var spanRevert = document.querySelectorAll('.spanRevert');
+			
+			// set animation interval once in 1 second when height is 50% 
+			if (Math.ceil(span[0].clientHeight/span[0].parentNode.clientHeight * 100) == 50) {
+				for (var i = span.length - 1; i > -1; i--) {
+					span[i].setAttribute('class', 'span span' + Math.ceil(100 * Math.random()) + '');
+				}
+			}
+			
+			if (Math.ceil(spanRevert[0].clientHeight/spanRevert[0].parentNode.clientHeight * 100) == 100) {
+				for (var i = spanRevert.length - 1; i > -1; i--) {
+					spanRevert[i].setAttribute('class', 'spanRevert spanRevert' + Math.ceil(100 * Math.random()) + '');
+				}
 			}			
-			text = document.createTextNode(textStyle.join(''));
-			style.appendChild(text);
-			document.querySelectorAll('head')[0].appendChild(style);
-			window.animationRevert = true;
 		}
-		for (var i = cols.length - 1; i > -1; i--) {
-			if (revert) {
-				spanCount.push("<span class='spanRevert spanRevert"+ i % 100 +"' style='width: " + colWidth + "px;'>&nbsp;</span>");
-			} else {
-				spanCount.push("<span class='span span"+ i % 100 +"' style='width: " + colWidth + "px;'>&nbsp;</span>");
-			}
+		
+		setInterval(run_equalizer, window.equalizerTimer);
+		  
+		window.onload = function () {
+			setEqualizer('eq_1', 1000, 2);
+			setEqualizer('eq_2', 1000, 2, 'reverse');
+			setEqualizer('eq_3', 1000, 2);
 		}
-		spans = spanCount.join('');
-		selector.innerHTML  = spanCount.join('');
-	}	
-	
-	function run_equalizer() {
-		var span = document.querySelectorAll('.span');
-		var spanRevert = document.querySelectorAll('.spanRevert');
-		if (span[0].clientHeight == 50) {
-			for (var i = span.length - 1; i > -1; i--) {
-				span[i].setAttribute('class', 'span span' + Math.ceil(100 * Math.random()) + '');
-			}
-		}
-		if (spanRevert[0].clientHeight == 50) {
-			for (var i = spanRevert.length - 1; i > -1; i--) {
-				spanRevert[i].setAttribute('class', 'spanRevert spanRevert' + Math.ceil(100 * Math.random()) + '');
-			}
-		}			
-    }
-	
-	setInterval(run_equalizer, window.equalizerTimer * 60);
-      
-    window.onload = function () {
-        setEqualizer('eq_1', 1000, 2);
-        setEqualizer('eq_2', 1000, 2, 'reverse');
-        setEqualizer('eq_3', 1000, 2);
-    }
     </script>
   </head>
   <body>
